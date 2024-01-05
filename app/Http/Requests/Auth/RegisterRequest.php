@@ -34,7 +34,8 @@ class RegisterRequest extends FormRequest
                 Rule::unique('users', 'email')
             ],
             'phone' => ['required', 'digits:11', Rule::unique('users', 'phone')],
-            'password' => ['required', 'confirmed', Password::default()]
+            'password' => ['required', 'confirmed', Password::defaults()],
+            'referral_code' => ['nullable', 'string']
         ];
     }
 }

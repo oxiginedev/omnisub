@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,6 +29,14 @@ class AppServiceProvider extends ServiceProvider
     {
         Model::unguard();
         Model::preventLazyLoading( ! $this->app->environment('production'));
+
+        Password::defaults(function () {
+            $rule = Password::min(8);
+     
+            return $this->app->environment('production')
+                        ? $rule->mixedCase()->uncompromised()
+                        : $rule;
+        });
     }
 
     protected function bindResponses(): void

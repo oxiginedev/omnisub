@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('role')->default(Role::USER);
+            $table->string('referral_code')->unique();
+            $table->ulid('referrer_id')->index()->nullable();
             $table->timestamps();
         });
     }

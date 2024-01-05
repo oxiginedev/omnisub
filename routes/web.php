@@ -1,7 +1,13 @@
 <?php
 
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\Webhooks\PaystackWebhookController;
+use App\Http\Dashboard;
+use App\Http\Middleware\ValidatePaystackSignature;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,5 +34,24 @@ Route::middleware('guest')->group(function (): void {
 });
 
 Route::middleware('auth')->group(function (): void {
+    Route::get('/email/verify', EmailVerificationPromptController::class)
+        ->name('verification.notice');
+    Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+    Route::post('/email/verification-notication', [EmailVerificationNotificationController::class, 'store'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
+
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+});
+
+Route::middleware(['auth', 'verified'])->group(function (): void {
+    Route::get('/dashboard', Dashboard::class)->name('dashboard');
+});
+
+Route::prefix('webhooks')->group(function (): void {
+    Route::post('/paystack', PaystackWebhookController::class)
+        ->middleware(ValidatePaystackSignature::class)
+        ->name('webhook.paystack');
 });
