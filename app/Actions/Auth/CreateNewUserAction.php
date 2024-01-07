@@ -3,7 +3,7 @@
 namespace App\Actions\Auth;
 
 use App\Enums\Role;
-use App\Events\UserReferred;
+use App\Events\UserWasReferred;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -18,13 +18,13 @@ class CreateNewUserAction
                         : null;
 
         if ($referrer) {
-            UserReferred::dispatch();
+            UserWasReferred::dispatch();
         }
 
         return DB::transaction(function () use ($input, $referrer): User {
             return tap(User::query()->create([
-                'name' => $input['name'],
-                'email' => $input['email'],
+                'name' => data_get($input, 'name'),
+                'email' => data_get($input, 'email'),
                 'phone' => $input['phone'],
                 'password' => Hash::make($input['password']),
                 'referral_code' => Str::upper(Str::random(6)),

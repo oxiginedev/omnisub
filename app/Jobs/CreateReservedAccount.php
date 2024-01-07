@@ -2,15 +2,15 @@
 
 namespace App\Jobs;
 
+use App\Actions\Monnify\CreateReservedAccountWithMonnifyAction;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class CreateVirtualAccount implements ShouldQueue
+class CreateReservedAccount implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -29,6 +29,6 @@ class CreateVirtualAccount implements ShouldQueue
      */
     public function handle(): void
     {
-        //
+        CreateReservedAccountWithMonnifyAction::create($this->user);
     }
 }

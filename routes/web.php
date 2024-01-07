@@ -5,8 +5,10 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\Webhooks\MonnifyWebhookController;
 use App\Http\Controllers\Webhooks\PaystackWebhookController;
-use App\Http\Dashboard;
+use App\Http\Livewire\Dashboard;
+use App\Http\Middleware\ValidateMonnifySignature;
 use App\Http\Middleware\ValidatePaystackSignature;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('front.index');
 });
 
 Route::middleware('guest')->group(function (): void {
@@ -54,4 +56,8 @@ Route::prefix('webhooks')->group(function (): void {
     Route::post('/paystack', PaystackWebhookController::class)
         ->middleware(ValidatePaystackSignature::class)
         ->name('webhook.paystack');
+
+    Route::post('/monnify', MonnifyWebhookController::class)
+        ->middleware(ValidateMonnifySignature::class)
+        ->name('webhook.monnify');
 });

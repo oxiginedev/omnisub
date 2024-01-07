@@ -1,6 +1,7 @@
 import forms from '@tailwindcss/forms'
 import typography from '@tailwindcss/typography'
-import defaultTheme from 'tailwindcss/defaultConfig'
+import colors from 'tailwindcss/colors'
+import defaultTheme from 'tailwindcss/defaultTheme'
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -10,6 +11,9 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        primary: colors.rose
+      },
       fontFamily: {
         sans: ['Manrope', ...defaultTheme.fontFamily.sans]
       }
