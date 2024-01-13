@@ -1,5 +1,5 @@
 services:
-    laravel.test:
+    omnisub-localhost:
         build:
             context: ./vendor/laravel/sail/runtimes/8.2
             dockerfile: Dockerfile
@@ -9,7 +9,6 @@ services:
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
-            - '${APP_PORT:-80}:80'
             - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
         environment:
             WWWUSER: '${WWWUSER}'
@@ -21,10 +20,14 @@ services:
             - '.:/var/www/html'
         networks:
             - sail
+            - fleet
         depends_on:
             - mysql
             - redis
             - mailpit
+        labels:
+            - traefik.http.routers.omnisub-localhost.rule=Host(`omnisub.localhost`)
+            - traefik.http.services.omnisub-localhost.loadbalancer.server.port=80
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -74,6 +77,8 @@ services:
 networks:
     sail:
         driver: bridge
+    fleet:
+        external: true
 volumes:
     sail-mysql:
         driver: local
