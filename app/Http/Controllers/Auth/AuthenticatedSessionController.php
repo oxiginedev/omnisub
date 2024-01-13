@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Actions\Auth\AttemptToAuthenticateAction;
 use App\Actions\Auth\EnsureLoginIsNotThrottledAction;
 use App\Actions\Auth\PrepareAuthenticatedSessionAction;
+use App\Actions\Auth\ReHashPasswordAction;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Responses\Contracts\LoginResponse;
 use App\Http\Responses\Contracts\LogoutResponse;
@@ -18,7 +19,8 @@ class AuthenticatedSessionController
 {
     public function __construct(
         protected StatefulGuard $guard
-    ) {}
+    ) {
+    }
 
     public function index(): View
     {
@@ -50,6 +52,7 @@ class AuthenticatedSessionController
             pipes: array_filter([
                 EnsureLoginIsNotThrottledAction::class,
                 AttemptToAuthenticateAction::class,
+                ReHashPasswordAction::class,
                 PrepareAuthenticatedSessionAction::class,
             ]),
         );

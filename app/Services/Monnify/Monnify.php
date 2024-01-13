@@ -16,9 +16,9 @@ class Monnify
     public function __construct()
     {
         $this->client = Http::baseUrl(strval(config('services.monnify.url')))
-                            ->withToken($this->getAccessToken())
-                            ->asJson()
-                            ->acceptJson();
+            ->withToken($this->getAccessToken())
+            ->asJson()
+            ->acceptJson();
     }
 
     public function createReservedAccount(CreateReserveAccountRequest $payload)
@@ -26,7 +26,7 @@ class Monnify
         $response = $this->client->post(
             url: 'api/v2/bank-transfer/reserved-accounts',
             data: array_merge($payload->toArray(), [
-                'contractCode' => strval(config('services.monnify.contract_code'))
+                'contractCode' => strval(config('services.monnify.contract_code')),
             ]),
         );
 
@@ -38,12 +38,9 @@ class Monnify
 
         return VirtualAccountObject::collection($reservedAccounts);
     }
-    
+
     /**
      * Get the status of a transaction
-     *
-     * @param  string $reference
-     * @return TransactionObject
      */
     public function getTransactionStatus(string $reference): TransactionObject
     {
@@ -57,24 +54,23 @@ class Monnify
 
         return TransactionObject::make($decodedResponse);
     }
-    
+
     /**
      * Generate access token
      *
-     * @return string
-     * 
+     *
      * @throws MonnifyException
      */
     protected function getAccessToken(): string
     {
         $response = Http::baseUrl(strval(config('services.monnify.url')))
-                        ->withBasicAuth(
-                            username: strval(config('services.monnify.key')),
-                            password: strval(config('services.monnify.secret')),
-                        )
-                        ->asJson()
-                        ->acceptJson()
-                        ->post('/api/v1/auth/login');
+            ->withBasicAuth(
+                username: strval(config('services.monnify.key')),
+                password: strval(config('services.monnify.secret')),
+            )
+            ->asJson()
+            ->acceptJson()
+            ->post('/api/v1/auth/login');
 
         if ($response->failed()) {
             throw new MonnifyException($response->reason());
@@ -83,5 +79,5 @@ class Monnify
         $decodedResponse = $response->collect()->toArray();
 
         return strval(data_get($decodedResponse, 'responseBody.accessToken'));
-    }   
+    }
 }

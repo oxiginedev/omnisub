@@ -1,0 +1,1 @@
+<nav class="sticky top-0 z-10 shrink-0 flex h-16 bg-white border-b border-secondary-200"></nav>

@@ -10,7 +10,8 @@ class CreateReserveAccountRequest
         public readonly string $customerName,
         public readonly string $customerEmail,
         public readonly string $currencyCode = 'NGN'
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {
@@ -19,7 +20,7 @@ class CreateReserveAccountRequest
             'accountName' => $this->accountName,
             'customerName' => $this->customerName,
             'customerEmail' => $this->customerEmail,
-            'currencyCode' => $this->currencyCode
+            'currencyCode' => $this->currencyCode,
         ];
     }
 }

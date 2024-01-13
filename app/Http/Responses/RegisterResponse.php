@@ -2,7 +2,7 @@
 
 namespace App\Http\Responses;
 
-use App\Http\Responses\Contracts\RegisterResponseContract;
+use App\Http\Responses\Contracts\RegisterResponse as RegisterResponseContract;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

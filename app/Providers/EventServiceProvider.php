@@ -22,7 +22,7 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         Verified::class => [
-            ReserveVirtualAccount::class
+            ReserveVirtualAccount::class,
         ],
     ];
 

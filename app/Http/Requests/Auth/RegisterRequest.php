@@ -28,14 +28,14 @@ class RegisterRequest extends FormRequest
             'email' => [
                 'required',
                 'string',
-                'lowercase', 
+                'lowercase',
                 'email:filter',
                 'max:255',
-                Rule::unique('users', 'email')
+                Rule::unique('users', 'email'),
             ],
             'phone' => ['required', 'digits:11', Rule::unique('users', 'phone')],
             'password' => ['required', 'confirmed', Password::defaults()],
-            'referral_code' => ['nullable', 'string']
+            'referral_code' => ['nullable', 'string'],
         ];
     }
 }

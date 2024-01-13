@@ -13,7 +13,8 @@ class RegisteredUserController
 {
     public function __construct(
         protected StatefulGuard $guard
-    ) {}
+    ) {
+    }
 
     public function index(): View
     {

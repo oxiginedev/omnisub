@@ -11,7 +11,8 @@ class EnsureLoginIsNotThrottledAction
 {
     public function __construct(
         protected LoginRateLimiter $limiter,
-    ) {}
+    ) {
+    }
 
     public function handle(Request $request, callable $next): mixed
     {

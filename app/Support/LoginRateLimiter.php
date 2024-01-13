@@ -10,7 +10,8 @@ abstract class LoginRateLimiter
 {
     public function __construct(
         protected RateLimiter $limiter,
-    ) {}
+    ) {
+    }
 
     public function attempts(Request $request)
     {
@@ -39,6 +40,6 @@ abstract class LoginRateLimiter
 
     protected function throttleKey(Request $request): string
     {
-        return Str::transliterate(Str::lower($request->input('email')) . '|' . $request->ip());
+        return Str::transliterate(Str::lower($request->input('email')).'|'.$request->ip());
     }
 }

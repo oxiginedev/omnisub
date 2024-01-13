@@ -18,7 +18,8 @@ class TransactionObject
         public readonly string $paymentDescription,
         public readonly string $currency,
         public readonly string $paymentMethod,
-    ) {}
+    ) {
+    }
 
     public static function make(array $payload): self
     {
@@ -27,10 +28,14 @@ class TransactionObject
             paymentReference: strval(data_get($payload, 'paymentReference')),
             amountPaid: floatval(data_get($payload, 'amountPaid')),
             totalPayable: floatval(data_get($payload, 'totalPayable')),
-
+            settlementAmount: floatval(data_get($payload, 'settlementAmount')),
             paidOn: Carbon::parse(data_get($payload, 'paidOn')),
-
-            paymentDescription: strval(data_get($payload, 'paymentDescription'))
-        )
+            paymentStatus: TransactionStatus::match(
+                value: data_get($payload, 'paymentStatus')
+            ),
+            paymentDescription: strval(data_get($payload, 'paymentDescription')),
+            currency: strval(data_get($payload, 'currency')),
+            paymentMethod: strval(data_get($payload, 'paymentMethod'))
+        );
     }
 }

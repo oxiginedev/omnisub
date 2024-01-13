@@ -27,9 +27,9 @@ class LoginRequest extends FormRequest
                 'string',
                 'email:filter',
                 'max:255',
-                'exists:users,email'    
+                'exists:users,email',
             ],
-            'password' => ['required', 'string', 'max:255']
+            'password' => ['required', 'string', 'max:255'],
         ];
     }
 }

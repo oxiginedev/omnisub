@@ -6,16 +6,20 @@ import defaultTheme from 'tailwindcss/defaultTheme'
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    './resources/**/*.blade.php',
+    './resources/views/**/*.blade.php',
     './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
   ],
   theme: {
     extend: {
       colors: {
-        primary: colors.rose
+        primary: colors.green,
+        secondary: colors.neutral
+      },
+      minHeight: {
+        '(screen-content)': 'calc(100vh - 9.625rem)',
       },
       fontFamily: {
-        sans: ['Manrope', ...defaultTheme.fontFamily.sans]
+        sans: ['Nunito', ...defaultTheme.fontFamily.sans]
       }
     },
   },

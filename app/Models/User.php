@@ -36,7 +36,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'role' => Role::class
+        'role' => Role::class,
     ];
 
     public function wallet(): HasOne

@@ -26,7 +26,7 @@ class RegisterTest extends TestCase
             'name' => $this->faker->name(),
             'email' => $this->faker->safeEmail(),
             'phone' => $this->faker->phoneNumber(),
-            'password' => 'password'
+            'password' => 'password',
         ];
 
         $this->post(route('register'), $form)->assertCreated();
@@ -34,7 +34,7 @@ class RegisterTest extends TestCase
         $this->assertAuthenticated();
 
         $this->assertDatabaseHas('users', [
-            'email' => $form['email']
+            'email' => $form['email'],
         ]);
 
         $this->assertDatabaseCount('users', 1);
@@ -48,7 +48,7 @@ class RegisterTest extends TestCase
             'name' => $this->faker->name(),
             'email' => $user->email,
             'phone' => $this->faker->phoneNumber(),
-            'password' => 'password'
+            'password' => 'password',
         ]);
 
         $this->assertGuest();

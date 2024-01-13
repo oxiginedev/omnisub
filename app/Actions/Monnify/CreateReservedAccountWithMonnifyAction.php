@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\DB;
 class CreateReservedAccountWithMonnifyAction
 {
     public function __construct(
-        protected Monnify $monnify, 
-    ) {}
+        protected Monnify $monnify,
+    ) {
+    }
 
     public static function create(User $user): void
     {

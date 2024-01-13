@@ -1,13 +1,15 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\Webhooks\MonnifyWebhookController;
 use App\Http\Controllers\Webhooks\PaystackWebhookController;
-use App\Http\Livewire\Dashboard;
+use App\Http\Livewire\Dashboard\Airtime;
+use App\Http\Livewire\Dashboard\Dashboard;
+use App\Http\Livewire\Dashboard\Transactions;
 use App\Http\Middleware\ValidateMonnifySignature;
 use App\Http\Middleware\ValidatePaystackSignature;
 use Illuminate\Support\Facades\Route;
@@ -35,8 +37,8 @@ Route::middleware('guest')->group(function (): void {
     Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 });
 
-Route::middleware('auth')->group(function (): void {
-    Route::get('/email/verify', EmailVerificationPromptController::class)
+Route::middleware('guest')->group(function (): void {
+    Route::get('/verify', EmailVerificationPromptController::class)
         ->name('verification.notice');
     Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
         ->middleware(['signed', 'throttle:6,1'])
@@ -50,6 +52,8 @@ Route::middleware('auth')->group(function (): void {
 
 Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    Route::get('/airtime', Airtime::class)->name('airtime');
+    Route::get('/transactions', Transactions::class)->name('transactions');
 });
 
 Route::prefix('webhooks')->group(function (): void {
